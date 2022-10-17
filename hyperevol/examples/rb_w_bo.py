@@ -2,7 +2,7 @@
 size for 1000 repeats each optimization consists out of 10k total evaluations.
 Call with 'python'
 
-Usage: rb_w_pso.py --output_dir=DIR
+Usage: rb_w_bo.py --output_dir=DIR
 
 Options:
     -o --output_dir=DIR             Directory of the output
@@ -12,8 +12,8 @@ import json
 import docopt
 import numpy as np
 from helper import read_cfg, save_results
-from hyperevol.tools import particle_swarm as pso
 from rosenbrock_scoring import ensemble_rosenbrock
+from hyperevol.tools import bayesian_optimization as bo
 
 
 def main(output_dir: str) -> None:
@@ -32,15 +32,17 @@ def main(output_dir: str) -> None:
         None
     '''
     os.makedirs(output_dir, exist_ok=True)
-    pso_cfg = read_cfg('config/pso_cfg.json')
+    bo_cfg = read_cfg('config/bo_cfg.json')
     hyperparameters = read_cfg('config/rosenbrock_cfg.json')
-    swarm = pso.ParticleSwarm(ensemble_rosenbrock, hyperparameters, **pso_cfg)
-    pso_best_parameters, pso_best_fitness = swarm.optimize()
-    print(f"Found optimal parameters: {pso_best_parameters}")
-    print(f"Found optimal value with optimal parameters: {pso_best_fitness}")
+    bo_best_parameters, bo_best_fitness = bo.optimize(
+                                                      ensemble_rosenbrock,
+                                                      hyperparameters,
+                                                      **bo_cfg)
+    print(f"Found optimal parameters: {bo_best_parameters}")
+    print(f"Found optimal value with optimal parameters: {bo_best_fitness}")
     print("--------------------------------------------------------")
     print("Saving results:")
-    save_results(pso_best_parameters, pso_best_fitness, output_dir)
+    save_results(bo_best_parameters, bo_best_fitness, output_dir)
 
 
 if __name__ == '__main__':

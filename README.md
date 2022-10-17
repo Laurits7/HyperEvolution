@@ -10,9 +10,10 @@ Clone the repository:
 git clone git@github.com:Laurits7/HyperEvolution.git
 ```
 
-Create a virtual environment:
+Create a virtual environment and activate it:
 ```bash
 python -m venv Hopt
+source Hopt/bin/activate
 ```
 
 And install the package (-e for the editable version):
@@ -20,6 +21,8 @@ And install the package (-e for the editable version):
 ```bash
 pip install -e .
 ```
+
+Now every time you need to run the code, you only need to source the environment again
 
 ### Examples
     The example optimizations can be found under [examples](hyperevol/examples)

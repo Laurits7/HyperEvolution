@@ -22,6 +22,7 @@ setup(
         'chaospy',
         'scikit-learn',
         'numpy',
-        'xgboost'
+        'xgboost',
+        'scikit-optimize'
     ],
 )

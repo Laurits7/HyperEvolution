@@ -125,7 +125,7 @@ class ParticleSwarm:
     particles '''
     def __init__(
             self,
-            fitness_function,
+            objective_function,
             hyperparameter_info,
             settings={},
             population_size=50,
@@ -141,7 +141,7 @@ class ParticleSwarm:
         self.n_informants = n_informants
         self.iterations = iterations
         self.output_dir = output_dir
-        self.fitness_function = fitness_function
+        self.objective_function = objective_function
         self.hyperparameter_info = hyperparameter_info
         self.global_bests = []
         self.global_best = 99e99
@@ -227,7 +227,7 @@ class ParticleSwarm:
         iteration = 0
         np.random.seed(self.seed)
         all_locations = [particle.hyperparameters for particle in self.swarm]
-        fitnesses = self.fitness_function(all_locations, self.settings)
+        fitnesses = self.objective_function(all_locations, self.settings)
         self.set_particle_fitnesses(fitnesses, initial=True)
         self.check_global_best()
         for particle in self.swarm:
@@ -237,7 +237,7 @@ class ParticleSwarm:
             print('%s/%s' %(iteration, self.iterations))
             iteration += 1
             all_locations = [particle.hyperparameters for particle in self.swarm]
-            fitnesses = self.fitness_function(all_locations, self.settings)
+            fitnesses = self.objective_function(all_locations, self.settings)
             self.set_particle_fitnesses(fitnesses)
             self.check_global_best()
             for particle in self.swarm:

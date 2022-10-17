@@ -1,7 +1,7 @@
 from functools import partial
 
 
-def rosenbrock_function(parameter_dict, a=1, b=100, **kwargs):
+def rosenbrock_function(parameter_dict: dict, a: int =1, b:int =100, **kwargs):
     ''' The Rosenbrock function
 
     Parameters:
@@ -28,8 +28,8 @@ def rosenbrock_function(parameter_dict, a=1, b=100, **kwargs):
 
 
 def ensemble_rosenbrock(
-        parameter_dicts,
-        true_values={'a': 1, 'b': 100}
+        parameter_dicts: list,
+        true_values: dict ={'a': 1, 'b': 100}
 ):
     ''' Calcualtes the Rosenbrock function value for the ensemble. The function
     'partial' is used in order to pass our kwargs to the map.
