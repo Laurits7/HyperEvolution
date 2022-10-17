@@ -1,12 +1,7 @@
 from functools import partial
 
 
-def rosenbrock_function(
-        parameter_dict,
-        a=1,
-        b=100,
-        **kwargs
-):
+def rosenbrock_function(parameter_dict, a=1, b=100, **kwargs):
     ''' The Rosenbrock function
 
     Parameters:

@@ -7,7 +7,7 @@ import chaospy as cp
 
 
 class Particle():
-
+    ''' The class representing one particle in the swarm '''
     def __init__(
             self,
             hyperparameter_info,
@@ -121,6 +121,8 @@ class Particle():
 
 
 class ParticleSwarm:
+    ''' Class representing the whole swarm, that consists out of multiple
+    particles '''
     def __init__(
             self,
             fitness_function,
@@ -146,6 +148,10 @@ class ParticleSwarm:
         self.swarm = self.create_swarm()
 
     def create_swarm(self):
+        ''' Initializes the swarm by making a list of locations where particles
+        will be spawned. This kind of solution is needed in order to fill the
+        space more evenly using for example the latin hypercube distributing
+        method '''
         particle_swarm = []
         locations = self.create_initial_locations()
         for location in locations:
@@ -159,6 +165,10 @@ class ParticleSwarm:
         return particle_swarm
 
     def create_initial_locations(self):
+        ''' Creates the locations where the particles will spawn in the
+        beginning of the algorithm. This kind of solution is needed in order to
+        fill the space more evenly using for example the latin hypercube
+        distributing method '''
         list_of_distributions = []
         for hyperparameter in self.hyperparameter_info.values():
             list_of_distributions.append(
@@ -180,10 +190,6 @@ class ParticleSwarm:
                 location[name] = value
             locations.append(location)
         return locations
-
-    def espionage(self):
-        for particle in self.swarm:
-            particle.gather_intelligence(self.swarm)
 
     def get_fitnesses_and_location(self, group):
         best_locations = []
@@ -209,12 +215,15 @@ class ParticleSwarm:
         return best_fitness, best_location
 
     def check_global_best(self):
+        ''' Checks whether a new global best location for all the particles
+        has been found '''
         for particle in self.swarm:
             if particle.fitness < self.global_best:
                 self.global_best = particle.fitness
         self.global_bests.append(self.global_best)
 
-    def particleSwarmOptimization(self):
+    def optimize(self):
+        ''' The main function to call when swarm is to be start optimizing'''
         iteration = 0
         np.random.seed(self.seed)
         all_locations = [particle.hyperparameters for particle in self.swarm]
@@ -235,4 +244,3 @@ class ParticleSwarm:
                 particle.next_iteration(self.swarm)
         best_fitness, best_location = self.find_best_hyperparameters()
         return best_location, best_fitness
-
